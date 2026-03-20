@@ -10,6 +10,7 @@
   <style>
     :root{--bg:#fff7fb;--text:#35242f;--muted:#7b5f6f;--card:#ffffff;--border:#f0d3e2;--shadow:0 8px 24px rgba(170,60,110,.12);--primary:#d14d8b;--primary-dark:#b23f74;--secondary:#2eb67d;--good:#2eb67d;--warn:#f59e0b;--danger:#ef476f;--tab:#f9dbe9;--badge:#f8edf4}
     body.theme-redblack{--bg:#111214;--text:#f5f5f5;--muted:#b8b8b8;--card:#1b1d20;--border:#2b2d31;--shadow:0 8px 24px rgba(0,0,0,.28);--primary:#d62839;--primary-dark:#b71f2f;--secondary:#2e2f33;--good:#22c55e;--warn:#f59e0b;--danger:#ef4444;--tab:#23262a;--badge:#2a2d31}
+    body.theme-multicolor{--bg:#111317;--text:#edf1f7;--muted:#aab4c3;--card:#1a1f27;--border:#2c3440;--shadow:0 8px 24px rgba(0,0,0,.30);--primary:#c95b63;--primary-dark:#b34a53;--secondary:#5f8fc8;--good:#62b482;--warn:#d9ab63;--danger:#c95b63;--tab:#222a35;--badge:#27303c}
     *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
     .container{max-width:1180px;margin:auto;padding:12px}.header{display:grid;grid-template-columns:1.8fr 1fr;gap:12px;margin-bottom:12px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
@@ -20,29 +21,54 @@
     .controls{display:flex;gap:8px;flex-wrap:wrap}.select,.input,.textarea{width:100%;padding:10px 11px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);margin-top:5px;margin-bottom:9px}.textarea{min-height:72px;resize:vertical}
     .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab-btn{border:none;background:var(--tab);color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}.tab-btn.active{background:var(--primary);color:#fff}
     .tab-content{display:none}.tab-content.active{display:block}.grid-main{display:grid;grid-template-columns:340px 1fr;gap:12px}.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-    .big-number{font-size:38px;font-weight:800}.progress-wrap,.mini-bar{background:#d8d8d8;border-radius:999px;overflow:hidden} body.theme-redblack .progress-wrap,body.theme-redblack .mini-bar{background:#2e3238}
+    .big-number{font-size:38px;font-weight:800}.progress-wrap,.mini-bar{background:#d8d8d8;border-radius:999px;overflow:hidden} body.theme-redblack .progress-wrap,body.theme-redblack .mini-bar,body.theme-multicolor .progress-wrap,body.theme-multicolor .mini-bar{background:#2e3238}
     .progress-wrap{height:14px;margin-top:8px}.progress-bar,.mini-fill{height:100%;transition:width .2s ease}.progress-bar{width:0;background:var(--primary)}
     .task{border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:9px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.task-left{display:flex;gap:10px;align-items:flex-start;flex:1}
-    .badge{display:inline-block;background:var(--badge);padding:4px 8px;border-radius:999px;font-size:11px;margin-right:5px;margin-top:6px}.badge-ok{background:rgba(46,182,125,.14);color:var(--good)}.done{text-decoration:line-through;opacity:.65}
+    .badge{display:inline-block;background:var(--badge);padding:4px 8px;border-radius:999px;font-size:11px;margin-right:5px;margin-top:6px}.badge-ok{background:rgba(46,182,125,.14);color:var(--good)}.badge-recurring{font-weight:700}.done{text-decoration:line-through;opacity:.65}
     .empty{border:2px dashed var(--border);border-radius:14px;padding:20px;text-align:center;color:var(--muted)}.days-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
     .day-item,.category-item{border:1px solid var(--border);border-radius:14px;padding:11px}.status{min-height:18px;margin-top:8px;font-size:13px;color:var(--primary)}
     .install-box{display:none;margin-top:8px;padding:10px;border:1px dashed var(--border);border-radius:12px}.install-box.show{display:block} canvas{max-width:100%}
     .task-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}.modal-backdrop.show{display:flex}
-    .modal{max-width:520px;width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap}
+    .modal{max-width:560px;width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap}
     .month-day-block{border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}.month-day-title{font-weight:800;margin-bottom:8px}.day-empty{padding:10px 12px;border:1px dashed var(--border);border-radius:12px;color:var(--muted)}
     .day-task-card{border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;gap:10px}
+    .agenda-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:10px}
+    .agenda-toolbar .field{min-width:180px;flex:1}
+    .agenda-toolbar .field.compact{min-width:180px;flex:0 0 220px}
+    .repeat-wrap{border:1px dashed var(--border);border-radius:12px;padding:10px;margin-top:6px;margin-bottom:9px}
+    .repeat-days{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+    .day-chip{border:1px solid var(--border);background:transparent;color:var(--text);padding:7px 10px;border-radius:999px;cursor:pointer;font-weight:700}
+    .day-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .helper-text{font-size:12px;color:var(--muted);margin-top:6px}
     @media (max-width:900px){.header,.grid-main,.summary-grid{grid-template-columns:1fr}.task,.day-task-card{flex-direction:column}.container{padding:10px}}
-  </style>
+  
+/* COLORES POR CATEGORÍA */
+.category-Trabajo{background:#3b82f6;color:#fff;}
+.category-Casa{background:#f59e0b;color:#fff;}
+.category-Personal{background:#8b5cf6;color:#fff;}
+.category-Salud{background:#22c55e;color:#fff;}
+.category-Negocio{background:#ef4444;color:#fff;}
+.category-Iglesia{background:#d14d8b;color:#fff;}
+
+</style>
 </head>
 <body>
 <div class="container">
+
+<div class="card" style="text-align:center;margin-bottom:10px">
+  <strong>Dios es orden, no confusión.</strong><br>
+  <span class="muted">
+    “Porque Dios no es Dios de confusión, sino de paz.” — 1 Corintios 14:33
+  </span>
+</div>
+
   <div class="header">
     <div class="card">
       <div class="topline">
         <div><h1 id="mainTitle"></h1><div class="muted" id="mainSubtitle"></div></div>
         <div class="controls">
           <select id="languageSelect" class="select" style="width:auto;margin:0"><option value="es">Español</option><option value="en">English</option></select>
-          <select id="themeSelect" class="select" style="width:auto;margin:0"><option value="pinkgreen">Rosado + Verde</option><option value="redblack">Rojo + Negro</option></select>
+          <select id="themeSelect" class="select" style="width:auto;margin:0"><option value="pinkgreen">Sección Jeanie</option><option value="multicolor">Sección Yoni</option></select>
         </div>
       </div>
       <div class="top-actions">
@@ -72,15 +98,57 @@
         <label id="labelTitle"></label><input id="titleInput" class="input">
         <label id="labelCategory"></label><select id="categoryInput" class="select"></select>
         <div class="line">
-          <div style="flex:1"><label id="labelDate"></label><input id="dateInput" type="date" class="input"></div>
-          <div style="width:48%"><label id="labelTimeFrom"></label><input id="timeFromInput" type="time" class="input"></div>
+          <div style="flex:1"><label id="labelTimeFrom"></label><input id="timeFromInput" type="time" class="input"></div>
+          <div style="width:48%"><label id="labelTimeTo"></label><input id="timeToInput" type="time" class="input"></div>
         </div>
-        <div><label id="labelTimeTo"></label><input id="timeToInput" type="time" class="input"></div>
+        <div><label id="labelDate"></label><input id="dateInput" type="date" class="input"></div>
+        <label id="labelRepeat"></label>
+        <div class="repeat-wrap">
+          <select id="repeatTypeInput" class="select">
+            <option value="none"></option>
+            <option value="daily"></option>
+            <option value="weekly"></option>
+            <option value="monthly"></option>
+            <option value="specific"></option>
+          </select>
+          <div id="repeatDaysWrap" style="display:none">
+            <div class="repeat-days" id="repeatDaysButtons">
+              <button type="button" class="day-chip" data-day="1">L</button>
+              <button type="button" class="day-chip" data-day="2">M</button>
+              <button type="button" class="day-chip" data-day="3">X</button>
+              <button type="button" class="day-chip" data-day="4">J</button>
+              <button type="button" class="day-chip" data-day="5">V</button>
+              <button type="button" class="day-chip" data-day="6">S</button>
+              <button type="button" class="day-chip" data-day="0">D</button>
+            </div>
+          </div>
+          <div class="helper-text" id="repeatHelpText"></div>
+        </div>
         <label id="labelNote"></label><textarea id="noteInput" class="textarea"></textarea>
         <button class="btn" id="saveTaskBtn"></button>
       </div>
       <div class="card">
         <div class="line"><h2 id="allTasksTitle"></h2><input id="agendaMonthInput" type="month" class="input" style="width:auto;margin:0"></div>
+        <div class="agenda-toolbar">
+          <div class="field">
+            <label id="agendaSearchLabel"></label>
+            <input id="agendaSearchInput" class="input">
+          </div>
+          <div class="field compact">
+            <label id="agendaFilterLabel"></label>
+            <select id="agendaFilterSelect" class="select">
+              <option value="all"></option>
+              <option value="single"></option>
+              <option value="withTasks"></option>
+              <option value="pending"></option>
+              <option value="completed"></option>
+            </select>
+          </div>
+          <div class="field compact" id="agendaSingleDateWrap" style="display:none">
+            <label id="agendaSingleDateLabel"></label>
+            <input id="agendaSingleDateInput" type="date" class="input">
+          </div>
+        </div>
         <div id="monthlyAgendaList"></div>
       </div>
     </div>
@@ -108,6 +176,28 @@
       <div style="width:48%"><label id="editLabelTimeFrom"></label><input id="editTimeFromInput" type="time" class="input"></div>
     </div>
     <label id="editLabelTimeTo"></label><input id="editTimeToInput" type="time" class="input">
+    <label id="editLabelRepeat"></label>
+    <div class="repeat-wrap">
+      <select id="editRepeatTypeInput" class="select">
+        <option value="none"></option>
+        <option value="daily"></option>
+        <option value="weekly"></option>
+        <option value="monthly"></option>
+        <option value="specific"></option>
+      </select>
+      <div id="editRepeatDaysWrap" style="display:none">
+        <div class="repeat-days" id="editRepeatDaysButtons">
+          <button type="button" class="day-chip" data-day="1">L</button>
+          <button type="button" class="day-chip" data-day="2">M</button>
+          <button type="button" class="day-chip" data-day="3">X</button>
+          <button type="button" class="day-chip" data-day="4">J</button>
+          <button type="button" class="day-chip" data-day="5">V</button>
+          <button type="button" class="day-chip" data-day="6">S</button>
+          <button type="button" class="day-chip" data-day="0">D</button>
+        </div>
+      </div>
+      <div class="helper-text" id="editRepeatHelpText"></div>
+    </div>
     <label id="editLabelNote"></label><textarea id="editNoteInput" class="textarea"></textarea>
     <div class="modal-actions"><button class="btn ghost" id="cancelEditBtn"></button><button class="btn" id="updateTaskBtn"></button></div>
   </div>
@@ -120,51 +210,643 @@ function getLocalDateString(dateObj = new Date()) {
   const d = String(dateObj.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
 }
+function parseDate(dateStr){
+  const [y,m,d]=dateStr.split('-').map(Number);
+  return new Date(y,m-1,d,12,0,0,0);
+}
+function compareDates(a,b){return parseDate(a).getTime()-parseDate(b).getTime();}
+function dateBelongsToMonth(dateStr,monthValue){return dateStr.startsWith(monthValue);}
+function weekday(dateStr){return parseDate(dateStr).getDay();}
+function yearOf(dateStr){return Number(dateStr.slice(0,4));}
+
 const STORAGE_KEY='agenda_universal_pwa_v5';
 const SETTINGS_KEY='agenda_universal_pwa_settings_v5';
+const AGENDA_FILTERS_KEY='agenda_universal_pwa_agenda_filters_v9';
+const LAST_ROLLOVER_CHECK_KEY='agenda_universal_pwa_last_rollover_check_v1';
+
 const I18N={
-  es:{title:'Agenda y seguimiento de progreso',subtitle:'Organiza tareas, horas, progreso mensual y muévelas sin dañar tu programa.',install:'Instalar app',installHelp:'Puedes instalar esta app en tu teléfono o computadora.',saveBackup:'Guardar respaldo',restoreBackup:'Restaurar respaldo',monthCompletion:'Cumplimiento del mes',agenda:'Agenda',today:'Hoy',summary:'Resumen mensual',newTask:'Nueva tarea',taskTitle:'Título',category:'Categoría',date:'Fecha',timeFrom:'Hora inicio',timeTo:'Hora fin',note:'Nota',saveTask:'Guardar tarea',updateTask:'Actualizar tarea',cancel:'Cancelar',allTasks:'Agenda del mes',todayTasks:'Tareas de hoy',monthSummary:'Resumen del mes',selectMonth:'Selecciona mes',overallStatus:'Estado general',categoryProgress:'Progreso por categoría',dailyResults:'Resultado diario del mes',noTasks:'Aún no has agregado tareas.',noTodayTasks:'Hoy no tienes tareas.',noMonthData:'No hay datos en este mes.',noCategories:'No hay categorías para mostrar.',noDailyResults:'Aún no hay resultados diarios.',noTaskDay:'Sin tarea',completed:'Completada',markDone:'Marcar hecha',unmark:'Desmarcar',edit:'Editar',repeat:'Repetir',move:'Mover',delete:'Borrar',chooseDateMove:'Elige una nueva fecha para mover esta tarea:',chooseDateRepeat:'Elige la fecha para repetir esta tarea:',writeTitle:'Escribe un título para la tarea.',invalidTime:'La hora final no puede ser igual a la hora inicial.',overnight:'Cruza al próximo día',taskSaved:'Tarea guardada correctamente.',taskUpdated:'Tarea actualizada.',taskMoved:'Tarea movida a otra fecha.',taskRepeated:'Tarea repetida en otra fecha.',backupSaved:'Respaldo guardado correctamente.',backupRestored:'Respaldo restaurado correctamente.',backupError:'No se pudo restaurar el archivo.',completedText:'tareas completadas',of:'de',compliance:'Cumplimiento',total:'Total',pending:'Pendientes',donePlural:'Completadas',dayLabel:'Día',categories:['Trabajo','Casa','Personal','Salud','Negocio','Iglesia']},
-  en:{title:'Agenda and progress tracking',subtitle:'Organize tasks, time slots, monthly progress, and move them without breaking your program.',install:'Install app',installHelp:'You can install this app on your phone or computer.',saveBackup:'Save backup',restoreBackup:'Restore backup',monthCompletion:'Monthly completion',agenda:'Agenda',today:'Today',summary:'Monthly summary',newTask:'New task',taskTitle:'Title',category:'Category',date:'Date',timeFrom:'Start time',timeTo:'End time',note:'Note',saveTask:'Save task',updateTask:'Update task',cancel:'Cancel',allTasks:'Month agenda',todayTasks:"Today's tasks",monthSummary:'Month summary',selectMonth:'Select month',overallStatus:'Overall status',categoryProgress:'Progress by category',dailyResults:'Daily results for the month',noTasks:'You have not added tasks yet.',noTodayTasks:'You have no tasks for today.',noMonthData:'No data for this month.',noCategories:'No categories to show.',noDailyResults:'There are no daily results yet.',noTaskDay:'No task',completed:'Completed',markDone:'Mark done',unmark:'Unmark',edit:'Edit',repeat:'Repeat',move:'Move',delete:'Delete',chooseDateMove:'Choose a new date to move this task:',chooseDateRepeat:'Choose the date to repeat this task:',writeTitle:'Write a title for the task.',invalidTime:'End time cannot be the same as start time.',overnight:'Crosses into next day',taskSaved:'Task saved successfully.',taskUpdated:'Task updated.',taskMoved:'Task moved to another date.',taskRepeated:'Task repeated on another date.',backupSaved:'Backup saved successfully.',backupRestored:'Backup restored successfully.',backupError:'Could not restore the file.',completedText:'tasks completed',of:'of',compliance:'Completion',total:'Total',pending:'Pending',donePlural:'Completed',dayLabel:'Day',categories:['Work','Home','Personal','Health','Business','Church']}
+  es:{
+    title:'Agenda y seguimiento de progreso',
+    subtitle:'Organiza tareas, horas, progreso mensual y muévelas sin dañar tu programa.',
+    install:'Instalar app',
+    installHelp:'Puedes instalar esta app en tu teléfono o computadora.',
+    saveBackup:'Guardar respaldo',
+    restoreBackup:'Restaurar respaldo',
+    monthCompletion:'Cumplimiento del mes',
+    agenda:'Agenda',
+    today:'Hoy',
+    summary:'Resumen mensual',
+    newTask:'Nueva tarea',
+    taskTitle:'Título',
+    category:'Categoría',
+    date:'Fecha',
+    timeFrom:'Hora inicio',
+    timeTo:'Hora fin',
+    note:'Nota',
+    repeat:'Repetición',
+    repeatNone:'No repetir',
+    repeatDaily:'Diaria',
+    repeatWeekly:'Semanal',
+    repeatMonthly:'Mensual',
+    repeatSpecific:'Días específicos',
+    repeatHelpNone:'La tarea saldrá solo una vez.',
+    repeatHelpDaily:'Se repetirá todos los días desde la fecha elegida, solo dentro de ese año.',
+    repeatHelpWeekly:'Se repetirá el mismo día de la semana de la fecha elegida.',
+    repeatHelpMonthly:'Se repetirá el mismo número de día del mes.',
+    repeatHelpSpecific:'Marca los días que quieras. Empezará desde la fecha elegida hacia adelante.',
+    selectAtLeastOneDay:'Selecciona por lo menos un día específico.',
+    recurring:'Recurrente',
+    saveTask:'Guardar tarea',
+    updateTask:'Actualizar tarea',
+    cancel:'Cancelar',
+    allTasks:'Agenda del mes',
+    todayTasks:'Tareas de hoy',
+    monthSummary:'Resumen del mes',
+    selectMonth:'Selecciona mes',
+    overallStatus:'Estado general',
+    categoryProgress:'Progreso por categoría',
+    dailyResults:'Resultado diario del mes',
+    noTasks:'Aún no has agregado tareas.',
+    noTodayTasks:'Hoy no tienes tareas.',
+    noMonthData:'No hay datos en este mes.',
+    noCategories:'No hay categorías para mostrar.',
+    noDailyResults:'Aún no hay resultados diarios.',
+    noTaskDay:'Sin tarea',
+    completed:'Completada',
+    inProgress:'En proceso',
+    statusCycle:'Cambiar estado',
+    markDone:'Marcar hecha',
+    unmark:'Desmarcar',
+    edit:'Editar',
+    manualRepeat:'Repetir',
+    move:'Mover',
+    delete:'Borrar',
+    chooseDateMove:'Elige una nueva fecha para mover esta tarea:',
+    chooseDateRepeat:'Elige la fecha para repetir esta tarea:',
+    writeTitle:'Escribe un título para la tarea.',
+    invalidTime:'La hora final no puede ser igual a la hora inicial.',
+    overnight:'Cruza al próximo día',
+    taskSaved:'Tarea guardada correctamente.',
+    taskUpdated:'Tarea actualizada.',
+    taskMoved:'Tarea movida a otra fecha.',
+    taskRepeated:'Tarea repetida en otra fecha.',
+    backupSaved:'Respaldo guardado correctamente.',
+    backupRestored:'Respaldo restaurado correctamente.',
+    backupError:'No se pudo restaurar el archivo.',
+    completedText:'tareas completadas',
+    of:'de',
+    compliance:'Cumplimiento',
+    total:'Total',
+    pending:'Pendientes',
+    donePlural:'Completadas',
+    dayLabel:'Día',
+    agendaSearch:'Buscar',
+    agendaSearchPlaceholder:'Buscar tarea...',
+    agendaFilter:'Filtro de agenda',
+    agendaSingleDate:'Elegir día',
+    filterAll:'Todo el mes',
+    filterSingle:'Solo un día',
+    filterWithTasks:'Solo días con tareas',
+    filterPending:'Solo pendientes',
+    filterCompleted:'Solo completadas',
+    deleteRecurringPrompt:'Esta es una tarea recurrente. Escribe 1 para borrar solo este día, o 2 para borrar toda la recurrencia.',
+    moveRecurringPrompt:'Esta es una tarea recurrente. Escribe 1 para mover solo este día, o 2 para mover toda la recurrencia.',
+    invalidRecurringChoice:'Opción no válida.',
+    categories:['Trabajo','Casa','Personal','Salud','Negocio','Iglesia'],
+    daysShort:{0:'D',1:'L',2:'M',3:'X',4:'J',5:'V',6:'S'}
+  },
+  en:{
+    title:'Agenda and progress tracking',
+    subtitle:'Organize tasks, time slots, monthly progress, and move them without breaking your program.',
+    install:'Install app',
+    installHelp:'You can install this app on your phone or computer.',
+    saveBackup:'Save backup',
+    restoreBackup:'Restore backup',
+    monthCompletion:'Monthly completion',
+    agenda:'Agenda',
+    today:'Today',
+    summary:'Monthly summary',
+    newTask:'New task',
+    taskTitle:'Title',
+    category:'Category',
+    date:'Date',
+    timeFrom:'Start time',
+    timeTo:'End time',
+    note:'Note',
+    repeat:'Repeat',
+    repeatNone:'Do not repeat',
+    repeatDaily:'Daily',
+    repeatWeekly:'Weekly',
+    repeatMonthly:'Monthly',
+    repeatSpecific:'Specific days',
+    repeatHelpNone:'The task will appear only once.',
+    repeatHelpDaily:'It will repeat every day from the selected date, only inside that year.',
+    repeatHelpWeekly:'It will repeat on the same weekday as the selected date.',
+    repeatHelpMonthly:'It will repeat on the same day number of each month.',
+    repeatHelpSpecific:'Mark any days you want. It starts from the selected date forward.',
+    selectAtLeastOneDay:'Select at least one specific day.',
+    recurring:'Recurring',
+    saveTask:'Save task',
+    updateTask:'Update task',
+    cancel:'Cancel',
+    allTasks:'Month agenda',
+    todayTasks:"Today's tasks",
+    monthSummary:'Month summary',
+    selectMonth:'Select month',
+    overallStatus:'Overall status',
+    categoryProgress:'Progress by category',
+    dailyResults:'Daily results for the month',
+    noTasks:'You have not added tasks yet.',
+    noTodayTasks:'You have no tasks for today.',
+    noMonthData:'No data for this month.',
+    noCategories:'No categories to show.',
+    noDailyResults:'There are no daily results yet.',
+    noTaskDay:'No task',
+    completed:'Completed',
+    inProgress:'In progress',
+    statusCycle:'Change status',
+    markDone:'Mark done',
+    unmark:'Unmark',
+    edit:'Edit',
+    manualRepeat:'Repeat',
+    move:'Move',
+    delete:'Delete',
+    chooseDateMove:'Choose a new date to move this task:',
+    chooseDateRepeat:'Choose the date to repeat this task:',
+    writeTitle:'Write a title for the task.',
+    invalidTime:'End time cannot be the same as start time.',
+    overnight:'Crosses into next day',
+    taskSaved:'Task saved successfully.',
+    taskUpdated:'Task updated.',
+    taskMoved:'Task moved to another date.',
+    taskRepeated:'Task repeated on another date.',
+    backupSaved:'Backup saved successfully.',
+    backupRestored:'Backup restored successfully.',
+    backupError:'Could not restore the file.',
+    completedText:'tasks completed',
+    of:'of',
+    compliance:'Completion',
+    total:'Total',
+    pending:'Pending',
+    donePlural:'Completed',
+    dayLabel:'Day',
+    agendaSearch:'Search',
+    agendaSearchPlaceholder:'Search task...',
+    agendaFilter:'Agenda filter',
+    agendaSingleDate:'Choose day',
+    filterAll:'Whole month',
+    filterSingle:'Single day',
+    filterWithTasks:'Only days with tasks',
+    filterPending:'Only pending',
+    filterCompleted:'Only completed',
+    deleteRecurringPrompt:'This is a recurring task. Type 1 to delete only this day, or 2 to delete the whole recurrence.',
+    moveRecurringPrompt:'This is a recurring task. Type 1 to move only this day, or 2 to move the whole recurrence.',
+    invalidRecurringChoice:'Invalid option.',
+    categories:['Work','Home','Personal','Health','Business','Church'],
+    daysShort:{0:'S',1:'M',2:'T',3:'W',4:'T',5:'F',6:'S'}
+  }
 };
+
 const todayISO=getLocalDateString();
-let state={tasks:[],settings:{language:'es',theme:'pinkgreen'}};
-let deferredPrompt=null, editingId=null;
-const els={};['mainTitle','mainSubtitle','installBtn','saveBackupBtn','restoreBackupBtn','restoreFileInput','installBox','statusText','monthCompletionTitle','completionRate','mainProgress','completionText','tabAgenda','tabToday','tabSummary','newTaskTitle','labelTitle','labelCategory','labelDate','labelTimeFrom','labelTimeTo','labelNote','titleInput','categoryInput','dateInput','timeFromInput','timeToInput','noteInput','saveTaskBtn','allTasksTitle','agendaMonthInput','monthlyAgendaList','todayTasksTitle','todayList','monthSummaryTitle','labelSelectMonth','monthInput','overallStatusTitle','categoryProgressTitle','dailyResultsTitle','categorySummary','dailySummary','pieChart','languageSelect','themeSelect','editModalBackdrop','editTaskTitle','editLabelTitle','editLabelCategory','editLabelDate','editLabelTimeFrom','editLabelTimeTo','editLabelNote','editTitleInput','editCategoryInput','editDateInput','editTimeFromInput','editTimeToInput','editNoteInput','cancelEditBtn','updateTaskBtn'].forEach(id=>els[id]=document.getElementById(id));
+let state={tasks:[],settings:{language:'es',theme:'pinkgreen'},agendaFilters:{mode:'all',singleDate:todayISO}};
+let deferredPrompt=null;
+let editingId=null;
+let agendaSearchText='';
+
+const els={};
+['mainTitle','mainSubtitle','installBtn','saveBackupBtn','restoreBackupBtn','restoreFileInput','installBox','statusText','monthCompletionTitle','completionRate','mainProgress','completionText','tabAgenda','tabToday','tabSummary','newTaskTitle','labelTitle','labelCategory','labelDate','labelTimeFrom','labelTimeTo','labelNote','labelRepeat','titleInput','categoryInput','dateInput','timeFromInput','timeToInput','noteInput','saveTaskBtn','repeatTypeInput','repeatDaysWrap','repeatDaysButtons','repeatHelpText','allTasksTitle','agendaMonthInput','monthlyAgendaList','todayTasksTitle','todayList','monthSummaryTitle','labelSelectMonth','monthInput','overallStatusTitle','categoryProgressTitle','dailyResultsTitle','categorySummary','dailySummary','pieChart','languageSelect','themeSelect','editModalBackdrop','editTaskTitle','editLabelTitle','editLabelCategory','editLabelDate','editLabelTimeFrom','editLabelTimeTo','editLabelNote','editLabelRepeat','editTitleInput','editCategoryInput','editDateInput','editTimeFromInput','editTimeToInput','editNoteInput','cancelEditBtn','updateTaskBtn','editRepeatTypeInput','editRepeatDaysWrap','editRepeatDaysButtons','editRepeatHelpText','agendaSearchLabel','agendaSearchInput','agendaFilterLabel','agendaFilterSelect','agendaSingleDateWrap','agendaSingleDateLabel','agendaSingleDateInput'].forEach(id=>els[id]=document.getElementById(id));
+
 const tr=()=>I18N[state.settings.language];
-function load(){try{const tasks=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); if(Array.isArray(tasks)) state.tasks=tasks;}catch{} try{const settings=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'); state.settings={...state.settings,...settings};}catch{}}
+
+function normalizeTask(task){
+  const normalized={...task};
+  normalized.recurring = normalized.recurring && normalized.recurring.type && normalized.recurring.type!=='none'
+    ? {type: normalized.recurring.type,days: Array.isArray(normalized.recurring.days) ? normalized.recurring.days.map(Number) : []}
+    : null;
+  normalized.recurringDoneDates = normalized.recurringDoneDates || {};
+  normalized.recurringExcludedDates = Array.isArray(normalized.recurringExcludedDates) ? normalized.recurringExcludedDates : [];
+  normalized.recurringInProgressDates = normalized.recurringInProgressDates || {};
+  if(!normalized.status) normalized.status = normalized.done ? 'done' : 'pending';
+  return normalized;
+}
+function load(){
+  try{const tasks=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); if(Array.isArray(tasks)) state.tasks=tasks.map(normalizeTask);}catch{}
+  try{const settings=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'); state.settings={...state.settings,...settings};}catch{}
+  try{const agendaFilters=JSON.parse(localStorage.getItem(AGENDA_FILTERS_KEY)||'{}'); state.agendaFilters={...state.agendaFilters,...agendaFilters};}catch{}
+}
 function persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state.tasks)); localStorage.setItem(SETTINGS_KEY,JSON.stringify(state.settings));}
+function persistAgendaFilters(){localStorage.setItem(AGENDA_FILTERS_KEY,JSON.stringify(state.agendaFilters));}
 function setStatus(msg,err=false){els.statusText.textContent=msg||''; els.statusText.style.color=err?'var(--danger)':'var(--primary)';}
-function applyTheme(){document.body.classList.toggle('theme-redblack',state.settings.theme==='redblack'); els.themeSelect.value=state.settings.theme;}
-function fillCategories(selectEl){selectEl.innerHTML=tr().categories.map(c=>`<option>${c}</option>`).join('');}
-function applyTexts(){document.documentElement.lang=state.settings.language; document.title=tr().title; els.mainTitle.textContent=tr().title; els.mainSubtitle.textContent=tr().subtitle; els.installBtn.textContent=tr().install; els.saveBackupBtn.textContent=tr().saveBackup; els.restoreBackupBtn.textContent=tr().restoreBackup; els.installBox.textContent=tr().installHelp; els.monthCompletionTitle.textContent=tr().monthCompletion; els.tabAgenda.textContent=tr().agenda; els.tabToday.textContent=tr().today; els.tabSummary.textContent=tr().summary; els.newTaskTitle.textContent=tr().newTask; els.labelTitle.textContent=tr().taskTitle; els.labelCategory.textContent=tr().category; els.labelDate.textContent=tr().date; els.labelTimeFrom.textContent=tr().timeFrom; els.labelTimeTo.textContent=tr().timeTo; els.labelNote.textContent=tr().note; els.saveTaskBtn.textContent=tr().saveTask; els.allTasksTitle.textContent=tr().allTasks; els.todayTasksTitle.textContent=tr().todayTasks; els.monthSummaryTitle.textContent=tr().monthSummary; els.labelSelectMonth.textContent=tr().selectMonth; els.overallStatusTitle.textContent=tr().overallStatus; els.categoryProgressTitle.textContent=tr().categoryProgress; els.dailyResultsTitle.textContent=tr().dailyResults; els.editTaskTitle.textContent=tr().edit; els.editLabelTitle.textContent=tr().taskTitle; els.editLabelCategory.textContent=tr().category; els.editLabelDate.textContent=tr().date; els.editLabelTimeFrom.textContent=tr().timeFrom; els.editLabelTimeTo.textContent=tr().timeTo; els.editLabelNote.textContent=tr().note; els.cancelEditBtn.textContent=tr().cancel; els.updateTaskBtn.textContent=tr().updateTask; fillCategories(els.categoryInput); fillCategories(els.editCategoryInput); els.languageSelect.value=state.settings.language;}
-function isOvernight(from,to){return !!(from && to && to < from);}
-function validateTimes(from,to){if(!from || !to) return true; return from !== to;}
-function getTaskPayload(prefix='main'){if(prefix==='main'){return {title:els.titleInput.value.trim(), category:els.categoryInput.value, date:els.dateInput.value, timeFrom:els.timeFromInput.value||'', timeTo:els.timeToInput.value||'', note:els.noteInput.value.trim()};} return {title:els.editTitleInput.value.trim(), category:els.editCategoryInput.value, date:els.editDateInput.value, timeFrom:els.editTimeFromInput.value||'', timeTo:els.editTimeToInput.value||'', note:els.editNoteInput.value.trim()};}
-function clearMainForm(){els.titleInput.value=''; els.categoryInput.value=tr().categories[0]; els.dateInput.value=todayISO; els.timeFromInput.value=''; els.timeToInput.value=''; els.noteInput.value='';}
-function addTask(){const payload=getTaskPayload('main'); if(!payload.title) return alert(tr().writeTitle); if(!validateTimes(payload.timeFrom,payload.timeTo)) return alert(tr().invalidTime); state.tasks.unshift({id:Date.now().toString()+Math.random().toString(16).slice(2),...payload,done:false,createdAt:new Date().toISOString(),completedAt:null}); persist(); clearMainForm(); renderAll(); setStatus(tr().taskSaved);}
-function toggleTask(id){state.tasks=state.tasks.map(task=>task.id===id?({...task,done:!task.done,completedAt:!task.done?new Date().toISOString():null}):task); persist(); renderAll();}
-function deleteTask(id){state.tasks=state.tasks.filter(task=>task.id!==id); persist(); renderAll();}
-function openEdit(id){const task=state.tasks.find(t=>t.id===id); if(!task) return; editingId=id; els.editTitleInput.value=task.title||''; els.editCategoryInput.value=task.category||tr().categories[0]; els.editDateInput.value=task.date||todayISO; els.editTimeFromInput.value=task.timeFrom||''; els.editTimeToInput.value=task.timeTo||''; els.editNoteInput.value=task.note||''; els.editModalBackdrop.classList.add('show');}
+function applyTheme(){if(state.settings.theme==='redblack' || state.settings.theme==='blue' || state.settings.theme==='green'){state.settings.theme='multicolor'; persist();} document.body.classList.remove('theme-redblack','theme-multicolor'); if(state.settings.theme==='multicolor') document.body.classList.add('theme-multicolor'); els.themeSelect.value=state.settings.theme;}
+function fillCategories(selectEl){selectEl.innerHTML=tr().categories.map(c=>`<option>${escapeHtml(c)}</option>`).join('');}
+function applyTexts(){
+  document.documentElement.lang=state.settings.language;
+  document.title=tr().title;
+  els.mainTitle.textContent=tr().title; els.mainSubtitle.textContent=tr().subtitle; els.installBtn.textContent=tr().install; els.saveBackupBtn.textContent=tr().saveBackup; els.restoreBackupBtn.textContent=tr().restoreBackup; els.installBox.textContent=tr().installHelp; els.monthCompletionTitle.textContent=tr().monthCompletion; els.tabAgenda.textContent=tr().agenda; els.tabToday.textContent=tr().today; els.tabSummary.textContent=tr().summary; els.newTaskTitle.textContent=tr().newTask; els.labelTitle.textContent=tr().taskTitle; els.labelCategory.textContent=tr().category; els.labelDate.textContent=tr().date; els.labelTimeFrom.textContent=tr().timeFrom; els.labelTimeTo.textContent=tr().timeTo; els.labelRepeat.textContent=tr().repeat; els.labelNote.textContent=tr().note; els.saveTaskBtn.textContent=tr().saveTask; els.allTasksTitle.textContent=tr().allTasks; els.todayTasksTitle.textContent=tr().todayTasks; els.monthSummaryTitle.textContent=tr().monthSummary; els.labelSelectMonth.textContent=tr().selectMonth; els.overallStatusTitle.textContent=tr().overallStatus; els.categoryProgressTitle.textContent=tr().categoryProgress; els.dailyResultsTitle.textContent=tr().dailyResults; els.editTaskTitle.textContent=tr().edit; els.editLabelTitle.textContent=tr().taskTitle; els.editLabelCategory.textContent=tr().category; els.editLabelDate.textContent=tr().date; els.editLabelTimeFrom.textContent=tr().timeFrom; els.editLabelTimeTo.textContent=tr().timeTo; els.editLabelRepeat.textContent=tr().repeat; els.editLabelNote.textContent=tr().note; els.cancelEditBtn.textContent=tr().cancel; els.updateTaskBtn.textContent=tr().updateTask; els.agendaSearchLabel.textContent=tr().agendaSearch; els.agendaSearchInput.placeholder=tr().agendaSearchPlaceholder; els.agendaFilterLabel.textContent=tr().agendaFilter; els.agendaSingleDateLabel.textContent=tr().agendaSingleDate;
+  els.repeatTypeInput.options[0].textContent=tr().repeatNone; els.repeatTypeInput.options[1].textContent=tr().repeatDaily; els.repeatTypeInput.options[2].textContent=tr().repeatWeekly; els.repeatTypeInput.options[3].textContent=tr().repeatMonthly; els.repeatTypeInput.options[4].textContent=tr().repeatSpecific;
+  els.editRepeatTypeInput.options[0].textContent=tr().repeatNone; els.editRepeatTypeInput.options[1].textContent=tr().repeatDaily; els.editRepeatTypeInput.options[2].textContent=tr().repeatWeekly; els.editRepeatTypeInput.options[3].textContent=tr().repeatMonthly; els.editRepeatTypeInput.options[4].textContent=tr().repeatSpecific;
+  const filterOptions=els.agendaFilterSelect.options; filterOptions[0].textContent=tr().filterAll; filterOptions[1].textContent=tr().filterSingle; filterOptions[2].textContent=tr().filterWithTasks; filterOptions[3].textContent=tr().filterPending; filterOptions[4].textContent=tr().filterCompleted;
+  fillCategories(els.categoryInput); fillCategories(els.editCategoryInput); els.languageSelect.value=state.settings.language; updateRepeatHelp('main'); updateRepeatHelp('edit');
+}
+function syncAgendaFilterUI(){els.agendaFilterSelect.value=state.agendaFilters.mode; els.agendaSingleDateInput.value=state.agendaFilters.singleDate || todayISO; els.agendaSingleDateWrap.style.display=state.agendaFilters.mode==='single'?'block':'none';}
+function isOvernight(from,to){return !!(from && to && to < from);} function validateTimes(from,to){if(!from || !to) return true; return from !== to;}
+function getSelectedRepeatDays(prefix='main'){const wrap = prefix==='main' ? els.repeatDaysButtons : els.editRepeatDaysButtons; return Array.from(wrap.querySelectorAll('.day-chip.active')).map(btn=>Number(btn.dataset.day));}
+function setSelectedRepeatDays(prefix='main',days=[]){const wrap = prefix==='main' ? els.repeatDaysButtons : els.editRepeatDaysButtons; const set=new Set(days.map(Number)); wrap.querySelectorAll('.day-chip').forEach(btn=>{btn.classList.toggle('active',set.has(Number(btn.dataset.day)));});}
+function updateRepeatHelp(prefix='main'){
+  const type = prefix==='main' ? els.repeatTypeInput.value : els.editRepeatTypeInput.value;
+  const wrap = prefix==='main' ? els.repeatDaysWrap : els.editRepeatDaysWrap;
+  const help = prefix==='main' ? els.repeatHelpText : els.editRepeatHelpText;
+  wrap.style.display = type==='specific' ? 'block' : 'none';
+  if(type==='daily') help.textContent=tr().repeatHelpDaily;
+  else if(type==='weekly') help.textContent=tr().repeatHelpWeekly;
+  else if(type==='monthly') help.textContent=tr().repeatHelpMonthly;
+  else if(type==='specific') help.textContent=tr().repeatHelpSpecific;
+  else help.textContent=tr().repeatHelpNone;
+}
+function buildRecurrenceFromForm(prefix='main'){
+  const type = prefix==='main' ? els.repeatTypeInput.value : els.editRepeatTypeInput.value;
+  if(type==='none') return null;
+  if(type==='specific'){
+    const days=getSelectedRepeatDays(prefix);
+    if(!days.length) return '__INVALID__';
+    return {type:'specific',days};
+  }
+  return {type,days:[]};
+}
+function recurrenceEquals(a,b){return JSON.stringify(a||null)===JSON.stringify(b||null);}
+function getTaskPayload(prefix='main'){
+  const recurrence = buildRecurrenceFromForm(prefix);
+  if(recurrence==='__INVALID__') return '__INVALID__';
+  if(prefix==='main'){
+    return {title:els.titleInput.value.trim(),category:els.categoryInput.value,date:els.dateInput.value,timeFrom:els.timeFromInput.value||'',timeTo:els.timeToInput.value||'',note:els.noteInput.value.trim(),recurring:recurrence};
+  }
+  return {title:els.editTitleInput.value.trim(),category:els.editCategoryInput.value,date:els.editDateInput.value,timeFrom:els.editTimeFromInput.value||'',timeTo:els.editTimeToInput.value||'',note:els.editNoteInput.value.trim(),recurring:recurrence};
+}
+function clearMainForm(){els.titleInput.value=''; els.categoryInput.value=tr().categories[0]; els.dateInput.value=todayISO; els.timeFromInput.value=''; els.timeToInput.value=''; els.noteInput.value=''; els.repeatTypeInput.value='none'; setSelectedRepeatDays('main',[]); updateRepeatHelp('main');}
+function isRecurringTask(task){return !!task.recurring;}
+function createVirtualRecurringTask(task,dateStr){return {...task,virtualId:`${task.id}__${dateStr}`,instanceDate:dateStr,date:dateStr,status:(task.recurringDoneDates&&task.recurringDoneDates[dateStr])?'done':((task.recurringInProgressDates&&task.recurringInProgressDates[dateStr])?'in_progress':'pending'),done:!!(task.recurringDoneDates&&task.recurringDoneDates[dateStr]),recurringBase:true};}
+function matchesRecurringTaskOnDate(task,dateStr){
+  if(!isRecurringTask(task)) return false;
+  if(compareDates(dateStr,task.date)<0) return false;
+  if(yearOf(dateStr)!==yearOf(task.date)) return false;
+  if(task.recurringExcludedDates.includes(dateStr)) return false;
+  if(task.recurring.type==='daily') return true;
+  if(task.recurring.type==='weekly') return weekday(dateStr)===weekday(task.date);
+  if(task.recurring.type==='monthly') return Number(dateStr.slice(-2))===Number(task.date.slice(-2));
+  if(task.recurring.type==='specific') return task.recurring.days.includes(weekday(dateStr));
+  return false;
+}
+function getTasksForDate(dateStr){
+  const list=[];
+  state.tasks.forEach(task=>{
+    if(isRecurringTask(task)){if(matchesRecurringTaskOnDate(task,dateStr)){list.push(createVirtualRecurringTask(task,dateStr));}}
+    else if(task.date===dateStr){list.push({...task,instanceDate:task.date,virtualId:task.id});}
+  });
+  return list;
+}
+function getTasksForMonth(monthValue){
+  const [year,month]=monthValue.split('-').map(Number);
+  const totalDays=new Date(year,month,0).getDate();
+  let all=[];
+  for(let day=1; day<=totalDays; day++){
+    const dateStr=`${monthValue}-${String(day).padStart(2,'0')}`;
+    all=all.concat(getTasksForDate(dateStr));
+  }
+  return all;
+}
+function sortTasksByTime(tasks){
+  const withTime=tasks.filter(task=>task.timeFrom).sort((a,b)=>{const timeCompare=(a.timeFrom||'').localeCompare(b.timeFrom||''); if(timeCompare!==0) return timeCompare; return String(a.createdAt||'').localeCompare(String(b.createdAt||''));});
+  const withoutTime=tasks.filter(task=>!task.timeFrom);
+  return [...withTime,...withoutTime];
+}
+
+function getTaskStatus(task){
+  if(task.status==='in_progress') return 'in_progress';
+  if(task.status==='done' || task.done) return 'done';
+  return 'pending';
+}
+function getStatusIcon(task){
+  const status=getTaskStatus(task);
+  if(status==='in_progress') return '🛠️';
+  if(status==='done') return '✅';
+  return '⏳';
+}
+
+function formatTimeRange(task){
+  if(task.timeFrom&&task.timeTo){return isOvernight(task.timeFrom,task.timeTo)?`${task.timeFrom} - ${task.timeTo} (${tr().overnight})`:`${task.timeFrom} - ${task.timeTo}`;}
+  if(task.timeFrom) return `${task.timeFrom}`;
+  return '';
+}
+function renderTaskCard(task,where='month'){
+  const timeBadge=formatTimeRange(task)?`<span class="badge">${escapeHtml(formatTimeRange(task))}</span>`:'';
+  const statusIcon=`<span class="badge" title="${escapeHtml(getTaskStatus(task)==='in_progress'?tr().inProgress:getTaskStatus(task)==='done'?tr().completed:'Pendiente')}">${getStatusIcon(task)}</span>`;
+  const recurringBadge=isRecurringTask(task)?`<span class="badge badge-recurring" title="${escapeHtml(tr().recurring)}">🔁</span>`:'';
+  const body=`<div><div class="${getTaskStatus(task)==='done'?'done':''}"><strong>${escapeHtml(task.title)}</strong></div><div><span class="badge category-${task.category}">${escapeHtml(task.category||'')}</span>${timeBadge}${statusIcon}${recurringBadge}</div>${task.note?`<div class="muted" style="margin-top:6px">${escapeHtml(task.note)}</div>`:''}</div>`;
+  const actionsMonth=`<div class="task-actions"><button class="btn small ghost" onclick="openEdit('${task.id}','${task.instanceDate||task.date||''}')">${tr().edit}</button><button class="btn small ghost" onclick="repeatTask('${task.id}','${task.instanceDate||task.date||''}')">${tr().manualRepeat}</button><button class="btn small secondary" onclick="moveTask('${task.id}','${task.instanceDate||task.date||''}')">${tr().move}</button><button class="btn small" onclick="cycleTaskStatus('${task.id}','${task.instanceDate||task.date||''}')" title="${escapeHtml(tr().statusCycle)}">${getStatusIcon(task)}</button><button class="btn small delete" onclick="deleteTask('${task.id}','${task.instanceDate||task.date||''}')">${tr().delete}</button></div>`;
+  const actionsToday=`<div class="task-actions"><button class="btn small secondary" onclick="cycleTaskStatus('${task.id}','${task.instanceDate||task.date||''}')" title="${escapeHtml(tr().statusCycle)}">${getStatusIcon(task)}</button><button class="btn small ghost" onclick="openEdit('${task.id}','${task.instanceDate||task.date||''}')">${tr().edit}</button><button class="btn small secondary" onclick="moveTask('${task.id}','${task.instanceDate||task.date||''}')">${tr().move}</button><button class="btn small delete" onclick="deleteTask('${task.id}','${task.instanceDate||task.date||''}')">${tr().delete}</button></div>`;
+  if(where==='today') return `<div class="task">${body}${actionsToday}</div>`;
+  return `<div class="day-task-card">${body}${actionsMonth}</div>`;
+}
+function addTask(){
+  const payload=getTaskPayload('main');
+  if(payload==='__INVALID__') return alert(tr().selectAtLeastOneDay);
+  if(!payload.title) return alert(tr().writeTitle);
+  if(!validateTimes(payload.timeFrom,payload.timeTo)) return alert(tr().invalidTime);
+  state.tasks.unshift(normalizeTask({id:Date.now().toString()+Math.random().toString(16).slice(2),...payload,status:'pending',done:false,createdAt:new Date().toISOString(),completedAt:null,recurringDoneDates:{},recurringExcludedDates:[]}));
+  persist(); clearMainForm(); renderAll(); setStatus(tr().taskSaved);
+}
+
+function cycleTaskStatus(id,instanceDate=''){
+  state.tasks=state.tasks.map(task=>{
+    if(task.id!==id) return task;
+    if(isRecurringTask(task) && instanceDate){
+      const next={...task,recurringDoneDates:{...task.recurringDoneDates},recurringInProgressDates:{...(task.recurringInProgressDates||{})}};
+      const current = next.recurringDoneDates[instanceDate] ? 'done' : (next.recurringInProgressDates[instanceDate] ? 'in_progress' : 'pending');
+      if(current==='pending'){
+        next.recurringInProgressDates[instanceDate]=true;
+        delete next.recurringDoneDates[instanceDate];
+      } else if(current==='in_progress'){
+        next.recurringDoneDates[instanceDate]=true;
+        delete next.recurringInProgressDates[instanceDate];
+      } else {
+        delete next.recurringDoneDates[instanceDate];
+        delete next.recurringInProgressDates[instanceDate];
+      }
+      return next;
+    }
+    const current=getTaskStatus(task);
+    if(current==='pending') return {...task,status:'in_progress',done:false,completedAt:null};
+    if(current==='in_progress') return {...task,status:'done',done:true,completedAt:new Date().toISOString()};
+    return {...task,status:'pending',done:false,completedAt:null};
+  });
+  persist(); renderAll();
+}
+
+function toggleTask(id,instanceDate=''){
+  state.tasks=state.tasks.map(task=>{
+    if(task.id!==id) return task;
+    if(isRecurringTask(task) && instanceDate){
+      const next={...task,recurringDoneDates:{...task.recurringDoneDates}};
+      next.recurringDoneDates[instanceDate]=!next.recurringDoneDates[instanceDate];
+      if(!next.recurringDoneDates[instanceDate]) delete next.recurringDoneDates[instanceDate];
+      return next;
+    }
+    return {...task,done:!task.done,completedAt:!task.done?new Date().toISOString():null};
+  });
+  persist(); renderAll();
+}
+function deleteTask(id,instanceDate=''){
+  const task=state.tasks.find(t=>t.id===id);
+  if(!task) return;
+  if(isRecurringTask(task) && instanceDate){
+    const choice=prompt(tr().deleteRecurringPrompt,'1');
+    if(choice===null) return;
+    if(choice==='1'){
+      state.tasks=state.tasks.map(t=>{
+        if(t.id!==id) return t;
+        const excluded = t.recurringExcludedDates.includes(instanceDate) ? t.recurringExcludedDates : [...t.recurringExcludedDates,instanceDate];
+        const doneDates={...t.recurringDoneDates}; delete doneDates[instanceDate];
+        return {...t,recurringExcludedDates:excluded,recurringDoneDates:doneDates};
+      });
+    } else if(choice==='2'){state.tasks=state.tasks.filter(t=>t.id!==id);}
+    else {return alert(tr().invalidRecurringChoice);}
+  } else {state.tasks=state.tasks.filter(t=>t.id!==id);}
+  persist(); renderAll();
+}
+function openEdit(id){
+  const task=state.tasks.find(t=>t.id===id);
+  if(!task) return;
+  editingId=id;
+  els.editTitleInput.value=task.title||''; els.editCategoryInput.value=task.category||tr().categories[0]; els.editDateInput.value=task.date||todayISO; els.editTimeFromInput.value=task.timeFrom||''; els.editTimeToInput.value=task.timeTo||''; els.editNoteInput.value=task.note||''; els.editRepeatTypeInput.value=task.recurring ? task.recurring.type : 'none'; setSelectedRepeatDays('edit',task.recurring?.days||[]); updateRepeatHelp('edit'); els.editModalBackdrop.classList.add('show');
+}
 function closeEdit(){editingId=null; els.editModalBackdrop.classList.remove('show');}
-function updateTask(){if(!editingId) return; const payload=getTaskPayload('edit'); if(!payload.title) return alert(tr().writeTitle); if(!validateTimes(payload.timeFrom,payload.timeTo)) return alert(tr().invalidTime); state.tasks=state.tasks.map(task=>task.id===editingId?({...task,...payload}):task); persist(); closeEdit(); renderAll(); setStatus(tr().taskUpdated);}
-function repeatTask(id){const task=state.tasks.find(t=>t.id===id); if(!task) return; const newDate=prompt(tr().chooseDateRepeat,task.date||todayISO); if(!newDate) return; state.tasks.unshift({...task,id:Date.now().toString()+Math.random().toString(16).slice(2),date:newDate,done:false,completedAt:null,createdAt:new Date().toISOString()}); persist(); renderAll(); setStatus(tr().taskRepeated);}
-function moveTask(id){const task=state.tasks.find(t=>t.id===id); if(!task) return; const newDate=prompt(tr().chooseDateMove,task.date||todayISO); if(!newDate) return; state.tasks=state.tasks.map(t=>t.id===id?({...t,date:newDate}):t); persist(); renderAll(); setStatus(tr().taskMoved);}
-function saveBackup(){const payload={version:5,exportedAt:new Date().toISOString(),settings:state.settings,tasks:state.tasks}; const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='agenda_universal_backup_'+getLocalDateString()+'.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); setStatus(tr().backupSaved);}
-function restoreBackup(file){const reader=new FileReader(); reader.onload=ev=>{try{const parsed=JSON.parse(ev.target.result); if(Array.isArray(parsed)){state.tasks=parsed;} else {if(Array.isArray(parsed.tasks)) state.tasks=parsed.tasks; if(parsed.settings) state.settings={...state.settings,...parsed.settings};} persist(); applyTheme(); applyTexts(); renderAll(); setStatus(tr().backupRestored);}catch{setStatus(tr().backupError,true);} finally {els.restoreFileInput.value='';}}; reader.readAsText(file);}
+function updateTask(){
+  if(!editingId) return;
+  const payload=getTaskPayload('edit');
+  if(payload==='__INVALID__') return alert(tr().selectAtLeastOneDay);
+  if(!payload.title) return alert(tr().writeTitle);
+  if(!validateTimes(payload.timeFrom,payload.timeTo)) return alert(tr().invalidTime);
+  state.tasks=state.tasks.map(task=>{
+    if(task.id!==editingId) return task;
+    const recurrenceChanged=!recurrenceEquals(task.recurring,payload.recurring);
+    return normalizeTask({...task,...payload,recurringDoneDates: recurrenceChanged ? {} : task.recurringDoneDates,recurringExcludedDates: recurrenceChanged ? [] : task.recurringExcludedDates});
+  });
+  persist(); closeEdit(); renderAll(); setStatus(tr().taskUpdated);
+}
+function repeatTask(id,instanceDate=''){
+  const task=state.tasks.find(t=>t.id===id);
+  if(!task) return;
+  const defaultDate=instanceDate || task.date || todayISO;
+  const newDate=prompt(tr().chooseDateRepeat,defaultDate);
+  if(!newDate) return;
+  state.tasks.unshift(normalizeTask({id:Date.now().toString()+Math.random().toString(16).slice(2),title:task.title,category:task.category,date:newDate,timeFrom:task.timeFrom||'',timeTo:task.timeTo||'',note:task.note||'',recurring:null,status:'pending',done:false,createdAt:new Date().toISOString(),completedAt:null,recurringDoneDates:{},recurringExcludedDates:[]}));
+  persist(); renderAll(); setStatus(tr().taskRepeated);
+}
+function moveTask(id,instanceDate=''){
+  const task=state.tasks.find(t=>t.id===id);
+  if(!task) return;
+  if(isRecurringTask(task) && instanceDate){
+    const choice=prompt(tr().moveRecurringPrompt,'1');
+    if(choice===null) return;
+    if(choice==='1'){
+      const newDate=prompt(tr().chooseDateMove,instanceDate);
+      if(!newDate) return;
+      state.tasks=state.tasks.map(t=>{
+        if(t.id!==id) return t;
+        const excluded = t.recurringExcludedDates.includes(instanceDate) ? t.recurringExcludedDates : [...t.recurringExcludedDates,instanceDate];
+        const doneDates={...t.recurringDoneDates}; delete doneDates[instanceDate];
+        return {...t,recurringExcludedDates:excluded,recurringDoneDates:doneDates};
+      });
+      state.tasks.unshift(normalizeTask({id:Date.now().toString()+Math.random().toString(16).slice(2),title:task.title,category:task.category,date:newDate,timeFrom:task.timeFrom||'',timeTo:task.timeTo||'',note:task.note||'',recurring:null,status:'pending',done:false,createdAt:new Date().toISOString(),completedAt:null,recurringDoneDates:{},recurringExcludedDates:[]}));
+      persist(); renderAll(); setStatus(tr().taskMoved); return;
+    }
+    if(choice==='2'){
+      const newDate=prompt(tr().chooseDateMove,task.date||todayISO);
+      if(!newDate) return;
+      state.tasks=state.tasks.map(t=>t.id===id?normalizeTask({...t,date:newDate,recurringDoneDates:{},recurringExcludedDates:[]}):t);
+      persist(); renderAll(); setStatus(tr().taskMoved); return;
+    }
+    return alert(tr().invalidRecurringChoice);
+  }
+  const newDate=prompt(tr().chooseDateMove,task.date||todayISO);
+  if(!newDate) return;
+  state.tasks=state.tasks.map(t=>t.id===id?normalizeTask({...t,date:newDate}):t);
+  persist(); renderAll(); setStatus(tr().taskMoved);
+}
+function saveBackup(){
+  const payload={version:11,exportedAt:new Date().toISOString(),settings:state.settings,agendaFilters:state.agendaFilters,tasks:state.tasks};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='agenda_universal_backup_'+getLocalDateString()+'.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  setStatus(tr().backupSaved);
+}
+function restoreBackup(file){
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const parsed=JSON.parse(ev.target.result);
+      if(Array.isArray(parsed)){state.tasks=parsed.map(normalizeTask);}
+      else {
+        if(Array.isArray(parsed.tasks)) state.tasks=parsed.tasks.map(normalizeTask);
+        if(parsed.settings) state.settings={...state.settings,...parsed.settings};
+        if(parsed.agendaFilters) state.agendaFilters={...state.agendaFilters,...parsed.agendaFilters};
+      }
+      persist(); persistAgendaFilters(); applyTheme(); applyTexts(); syncAgendaFilterUI(); renderAll(); setStatus(tr().backupRestored);
+    }catch{setStatus(tr().backupError,true);}
+    finally {els.restoreFileInput.value='';}
+  };
+  reader.readAsText(file);
+}
 function agendaMonthValue(){return els.agendaMonthInput.value||todayISO.slice(0,7);}
-function monthTasksFor(value){return state.tasks.filter(task=>(task.date||'').startsWith(value));}
-function daysInMonth(monthValue){const [year,month]=monthValue.split('-').map(Number); return new Date(year,month,0).getDate();}
-function monthDateString(monthValue,day){return `${monthValue}-${String(day).padStart(2,'0')}`;}
-function formatTimeRange(task){if(task.timeFrom&&task.timeTo){return isOvernight(task.timeFrom,task.timeTo)?`${task.timeFrom} - ${task.timeTo} (${tr().overnight})`:`${task.timeFrom} - ${task.timeTo}`;} if(task.timeFrom) return `${task.timeFrom}`; return '';}
-function renderMonthlyAgenda(){const monthValue=agendaMonthValue(); const tasks=monthTasksFor(monthValue); const totalDays=daysInMonth(monthValue); const grouped={}; tasks.forEach(task=>{grouped[task.date] ||= []; grouped[task.date].push(task);}); Object.values(grouped).forEach(arr=>arr.sort((a,b)=>(a.timeFrom||'').localeCompare(b.timeFrom||''))); let html=''; for(let day=1; day<=totalDays; day++){const dateStr=monthDateString(monthValue,day); const dayTasks=grouped[dateStr]||[]; html+=`<div class="month-day-block"><div class="month-day-title">${tr().dayLabel} ${day} • ${escapeHtml(dateStr)}</div>`; if(!dayTasks.length){html+=`<div class="day-empty">${tr().noTaskDay}</div>`;} else {html+=dayTasks.map(task=>`<div class="day-task-card"><div><div class="${task.done?'done':''}"><strong>${escapeHtml(task.title)}</strong></div><div><span class="badge">${escapeHtml(task.category||'')}</span>${formatTimeRange(task)?`<span class="badge">${escapeHtml(formatTimeRange(task))}</span>`:''}${task.done?`<span class="badge badge-ok">${tr().completed}</span>`:''}</div>${task.note?`<div class="muted" style="margin-top:6px">${escapeHtml(task.note)}</div>`:''}</div><div class="task-actions"><button class="btn small ghost" onclick="openEdit('${task.id}')">${tr().edit}</button><button class="btn small ghost" onclick="repeatTask('${task.id}')">${tr().repeat}</button><button class="btn small secondary" onclick="moveTask('${task.id}')">${tr().move}</button><button class="btn small ${task.done?'ghost':''}" onclick="toggleTask('${task.id}')">${task.done?tr().unmark:tr().markDone}</button><button class="btn small delete" onclick="deleteTask('${task.id}')">${tr().delete}</button></div></div>`).join('');} html+=`</div>`;} els.monthlyAgendaList.innerHTML=html||`<div class="empty">${tr().noTasks}</div>`;}
-function renderToday(){const list=state.tasks.filter(task=>task.date===getLocalDateString()).sort((a,b)=>(a.timeFrom||'').localeCompare(b.timeFrom||'')); if(!list.length){els.todayList.innerHTML=`<div class="empty">${tr().noTodayTasks}</div>`; return;} els.todayList.innerHTML=list.map(task=>`<div class="task"><div><strong>${escapeHtml(task.title)}</strong><div class="muted" style="margin-top:4px">${escapeHtml(task.category||'')}${formatTimeRange(task)?' • '+escapeHtml(formatTimeRange(task)):''}</div>${task.note?`<div class="muted" style="margin-top:6px">${escapeHtml(task.note)}</div>`:''}</div><div class="task-actions"><button class="btn small ${task.done?'ghost':'secondary'}" onclick="toggleTask('${task.id}')">${task.done?tr().unmark:tr().markDone}</button><button class="btn small ghost" onclick="openEdit('${task.id}')">${tr().edit}</button><button class="btn small secondary" onclick="moveTask('${task.id}')">${tr().move}</button></div></div>`).join('');}
-function renderSummary(){const month=els.monthInput.value; const monthTasks=monthTasksFor(month); const done=monthTasks.filter(t=>t.done).length; const pending=monthTasks.filter(t=>!t.done).length; const total=monthTasks.length; const rate=total?Math.round(done*100/total):0; els.completionRate.textContent=rate+'%'; els.completionText.textContent=`${done} ${tr().of} ${total} ${tr().completedText}`; els.mainProgress.style.width=rate+'%'; const categories={}; monthTasks.forEach(task=>{categories[task.category] ||= {total:0,done:0}; categories[task.category].total++; if(task.done) categories[task.category].done++;}); const colors=['#2eb67d','#d14d8b','#f59e0b','#8b5cf6','#14b8a6','#ef476f']; const entries=Object.entries(categories); els.categorySummary.innerHTML=!entries.length?`<div class="empty">${tr().noCategories}</div>`:entries.map(([name,val],i)=>{const percent=val.total?Math.round(val.done*100/val.total):0; return `<div class="category-item"><div class="line"><div><strong>${escapeHtml(name)}</strong><br><span class="muted">${val.done} ${tr().of} ${val.total}</span></div><strong>${percent}%</strong></div><div class="mini-bar"><div class="mini-fill" style="width:${percent}%;background:${colors[i%colors.length]}"></div></div></div>`;}).join(''); const days={}; monthTasks.forEach(task=>{days[task.date] ||= {total:0,done:0}; days[task.date].total++; if(task.done) days[task.date].done++;}); const dayEntries=Object.entries(days).sort((a,b)=>a[0].localeCompare(b[0])); els.dailySummary.innerHTML=!dayEntries.length?`<div class="empty">${tr().noDailyResults}</div>`:dayEntries.map(([date,val])=>{const percent=val.total?Math.round(val.done*100/val.total):0; const color=percent>=80?'var(--good)':percent>=50?'var(--warn)':'var(--danger)'; return `<div class="day-item"><div class="line"><strong>${escapeHtml(date)}</strong><span class="muted">${val.done}/${val.total}</span></div><div class="mini-bar"><div class="mini-fill" style="width:${percent}%;background:${color}"></div></div><div class="muted" style="margin-top:6px">${tr().compliance}: ${percent}%</div></div>`;}).join(''); drawPie(done,pending);}
-function drawPie(done,pending){const ctx=els.pieChart.getContext('2d'); ctx.clearRect(0,0,els.pieChart.width,els.pieChart.height); const total=done+pending; if(!total){ctx.fillStyle=getCss('--muted'); ctx.font='15px Arial'; ctx.fillText(tr().noMonthData,80,120); return;} const cx=105,cy=110,r=72; let start=-Math.PI/2; [{label:tr().donePlural,value:done,color:getCss('--good')},{label:tr().pending,value:pending,color:getCss('--danger')}].filter(s=>s.value>0).forEach(slice=>{const angle=(slice.value/total)*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+angle); ctx.closePath(); ctx.fillStyle=slice.color; ctx.fill(); start+=angle;}); ctx.fillStyle=getCss('--text'); ctx.font='bold 15px Arial'; ctx.fillText(`${tr().total}: ${total}`,78,115); ctx.fillStyle=getCss('--good'); ctx.fillRect(215,66,16,16); ctx.fillStyle=getCss('--text'); ctx.font='13px Arial'; ctx.fillText(`${tr().donePlural}: ${done}`,238,79); ctx.fillStyle=getCss('--danger'); ctx.fillRect(215,100,16,16); ctx.fillStyle=getCss('--text'); ctx.fillText(`${tr().pending}: ${pending}`,238,113);}
+function renderMonthlyAgenda(){
+  const monthValue=agendaMonthValue();
+  const allTasks=getTasksForMonth(monthValue);
+  const grouped={};
+  allTasks.forEach(task=>{grouped[task.date] ||= []; grouped[task.date].push(task);});
+  Object.keys(grouped).forEach(date=>{grouped[date]=sortTasksByTime(grouped[date]);});
+
+  const mode=state.agendaFilters.mode;
+  const singleDate=state.agendaFilters.singleDate || todayISO;
+  const [year,month]=monthValue.split('-').map(Number);
+  const totalDays=new Date(year,month,0).getDate();
+  let daysToShow=[];
+
+  if(mode==='single'){daysToShow=dateBelongsToMonth(singleDate,monthValue)?[singleDate]:[];}
+  else if(mode==='withTasks'){daysToShow=Object.keys(grouped).sort((a,b)=>a.localeCompare(b));}
+  else if(mode==='pending'){daysToShow=Array.from({length:totalDays},(_,i)=>`${monthValue}-${String(i+1).padStart(2,'0')}`).filter(dateStr=>(grouped[dateStr]||[]).some(task=>!task.done));}
+  else if(mode==='completed'){daysToShow=Array.from({length:totalDays},(_,i)=>`${monthValue}-${String(i+1).padStart(2,'0')}`).filter(dateStr=>(grouped[dateStr]||[]).some(task=>task.done));}
+  else {daysToShow=Array.from({length:totalDays},(_,i)=>`${monthValue}-${String(i+1).padStart(2,'0')}`);}
+
+  let html='';
+  daysToShow.forEach(dateStr=>{
+    let dayTasks=(grouped[dateStr]||[]);
+    if(mode==='pending') dayTasks=dayTasks.filter(task=>!task.done);
+    else if(mode==='completed') dayTasks=dayTasks.filter(task=>task.done);
+
+    if(agendaSearchText){
+      dayTasks=dayTasks.filter(task=>{
+        const title=(task.title||'').toLowerCase();
+        const note=(task.note||'').toLowerCase();
+        const category=(task.category||'').toLowerCase();
+        return title.includes(agendaSearchText) || note.includes(agendaSearchText) || category.includes(agendaSearchText);
+      });
+    }
+
+    const dayNumber=Number(dateStr.slice(-2));
+    html+=`<div class="month-day-block"><div class="month-day-title">${tr().dayLabel} ${dayNumber} • ${escapeHtml(dateStr)}</div>`;
+    if(!dayTasks.length){html+=`<div class="day-empty">${tr().noTaskDay}</div>`;}
+    else {html+=dayTasks.map(task=>renderTaskCard(task,'month')).join('');}
+    html+=`</div>`;
+  });
+
+  els.monthlyAgendaList.innerHTML=html||`<div class="empty">${tr().noTasks}</div>`;
+}
+function renderToday(){
+  const list=sortTasksByTime(getTasksForDate(getLocalDateString()));
+  if(!list.length){els.todayList.innerHTML=`<div class="empty">${tr().noTodayTasks}</div>`; return;}
+  els.todayList.innerHTML=list.map(task=>renderTaskCard(task,'today')).join('');
+}
+function renderSummary(){
+  const month=els.monthInput.value;
+  const monthTasks=getTasksForMonth(month);
+  const done=monthTasks.filter(t=>t.done).length;
+  const pending=monthTasks.filter(t=>!t.done).length;
+  const total=monthTasks.length;
+  const rate=total?Math.round(done*100/total):0;
+  els.completionRate.textContent=rate+'%';
+  els.completionText.textContent=`${done} ${tr().of} ${total} ${tr().completedText}`;
+  els.mainProgress.style.width=rate+'%';
+  const categories={};
+  monthTasks.forEach(task=>{categories[task.category] ||= {total:0,done:0}; categories[task.category].total++; if(task.done) categories[task.category].done++;});
+  const colors=['#2eb67d','#d14d8b','#f59e0b','#8b5cf6','#14b8a6','#ef476f'];
+  const entries=Object.entries(categories);
+  els.categorySummary.innerHTML=!entries.length?`<div class="empty">${tr().noCategories}</div>`:entries.map(([name,val],i)=>{const percent=val.total?Math.round(val.done*100/val.total):0; return `<div class="category-item"><div class="line"><div><strong>${escapeHtml(name)}</strong><br><span class="muted">${val.done} ${tr().of} ${val.total}</span></div><strong>${percent}%</strong></div><div class="mini-bar"><div class="mini-fill" style="width:${percent}%;background:${colors[i%colors.length]}"></div></div></div>`;}).join('');
+  const days={};
+  monthTasks.forEach(task=>{days[task.date] ||= {total:0,done:0}; days[task.date].total++; if(task.done) days[task.date].done++;});
+  const dayEntries=Object.entries(days).sort((a,b)=>a[0].localeCompare(b[0]));
+  els.dailySummary.innerHTML=!dayEntries.length?`<div class="empty">${tr().noDailyResults}</div>`:dayEntries.map(([date,val])=>{const percent=val.total?Math.round(val.done*100/val.total):0; const color=percent>=80?'var(--good)':percent>=50?'var(--warn)':'var(--danger)'; return `<div class="day-item"><div class="line"><strong>${escapeHtml(date)}</strong><span class="muted">${val.done}/${val.total}</span></div><div class="mini-bar"><div class="mini-fill" style="width:${percent}%;background:${color}"></div></div><div class="muted" style="margin-top:6px">${tr().compliance}: ${percent}%</div></div>`;}).join('');
+  drawPie(done,pending);
+}
+function drawPie(done,pending){
+  const ctx=els.pieChart.getContext('2d');
+  ctx.clearRect(0,0,els.pieChart.width,els.pieChart.height);
+  const total=done+pending;
+  if(!total){ctx.fillStyle=getCss('--muted'); ctx.font='15px Arial'; ctx.fillText(tr().noMonthData,80,120); return;}
+  const cx=105,cy=110,r=72;
+  let start=-Math.PI/2;
+  [{label:tr().donePlural,value:done,color:getCss('--good')},{label:tr().pending,value:pending,color:getCss('--danger')}].filter(s=>s.value>0).forEach(slice=>{
+    const angle=(slice.value/total)*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+angle); ctx.closePath(); ctx.fillStyle=slice.color; ctx.fill(); start+=angle;
+  });
+  ctx.fillStyle=getCss('--text'); ctx.font='bold 15px Arial'; ctx.fillText(`${tr().total}: ${total}`,78,115);
+  ctx.fillStyle=getCss('--good'); ctx.fillRect(215,66,16,16); ctx.fillStyle=getCss('--text'); ctx.font='13px Arial'; ctx.fillText(`${tr().donePlural}: ${done}`,238,79);
+  ctx.fillStyle=getCss('--danger'); ctx.fillRect(215,100,16,16); ctx.fillStyle=getCss('--text'); ctx.fillText(`${tr().pending}: ${pending}`,238,113);
+}
 function getCss(v){return getComputedStyle(document.body).getPropertyValue(v).trim()||getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
 function escapeHtml(text){return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+
+function timesOverlap(startA,endA,startB,endB){
+  if(!startA || !endA || !startB || !endB) return false;
+  if(isOvernight(startA,endA) || isOvernight(startB,endB)) return false;
+  const a1=startA, a2=endA, b1=startB, b2=endB;
+  return a1 < b2 && b1 < a2;
+}
+function hasTimeConflictOnDate(dateStr, taskToPlace){
+  return state.tasks.some(task=>{
+    if(isRecurringTask(task)) return false;
+    if(task.id===taskToPlace.id) return false;
+    if(task.date!==dateStr) return false;
+    if(!task.timeFrom || !task.timeTo || !taskToPlace.timeFrom || !taskToPlace.timeTo) return false;
+    return timesOverlap(task.timeFrom, task.timeTo, taskToPlace.timeFrom, taskToPlace.timeTo);
+  });
+}
+function movePendingTasksForwardForDate(dateStr){
+  let changed=false;
+  state.tasks=state.tasks.map(task=>{
+    if(isRecurringTask(task)) return task;
+    if(task.done || task.status==='done') return task;
+    if(task.date!==dateStr) return task;
+    const current = parseDate(task.date);
+    current.setDate(current.getDate()+1);
+    const nextDate = getLocalDateString(current);
+    let nextTask={...task,date:nextDate};
+    if(hasTimeConflictOnDate(nextDate, nextTask)){
+      nextTask={...nextTask,timeFrom:'',timeTo:''};
+    }
+    changed=true;
+    return nextTask;
+  });
+  if(changed) persist();
+}
+function runDailyRolloverIfNeeded(){
+  const today = getLocalDateString();
+  const lastChecked = localStorage.getItem(LAST_ROLLOVER_CHECK_KEY);
+  if(!lastChecked){
+    localStorage.setItem(LAST_ROLLOVER_CHECK_KEY, today);
+    return;
+  }
+  if(lastChecked===today) return;
+
+  let cursor = parseDate(lastChecked);
+  const todayDate = parseDate(today);
+  while(cursor.getTime() < todayDate.getTime()){
+    const dayStr = getLocalDateString(cursor);
+    movePendingTasksForwardForDate(dayStr);
+    cursor.setDate(cursor.getDate()+1);
+  }
+  localStorage.setItem(LAST_ROLLOVER_CHECK_KEY, today);
+}
+
 function renderAll(){renderMonthlyAgenda(); renderToday(); renderSummary();}
+
 document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); document.getElementById(btn.dataset.tab).classList.add('active');}));
-els.languageSelect.addEventListener('change',()=>{state.settings.language=els.languageSelect.value; persist(); applyTexts(); clearMainForm(); renderAll();});
+els.languageSelect.addEventListener('change',()=>{state.settings.language=els.languageSelect.value; persist(); applyTexts(); clearMainForm(); syncAgendaFilterUI(); renderAll();});
 els.themeSelect.addEventListener('change',()=>{state.settings.theme=els.themeSelect.value; persist(); applyTheme(); renderAll();});
 els.saveTaskBtn.addEventListener('click',addTask);
 els.saveBackupBtn.addEventListener('click',saveBackup);
@@ -172,14 +854,36 @@ els.restoreBackupBtn.addEventListener('click',()=>els.restoreFileInput.click());
 els.restoreFileInput.addEventListener('change',e=>{const file=e.target.files&&e.target.files[0]; if(file) restoreBackup(file);});
 els.agendaMonthInput.addEventListener('change',renderMonthlyAgenda);
 els.monthInput.addEventListener('change',renderSummary);
+els.agendaSearchInput.addEventListener('input',()=>{agendaSearchText=(els.agendaSearchInput.value||'').toLowerCase().trim(); renderMonthlyAgenda();});
+els.agendaFilterSelect.addEventListener('change',()=>{state.agendaFilters.mode=els.agendaFilterSelect.value; if(state.agendaFilters.mode==='single' && !state.agendaFilters.singleDate){state.agendaFilters.singleDate=todayISO;} persistAgendaFilters(); syncAgendaFilterUI(); renderMonthlyAgenda();});
+els.agendaSingleDateInput.addEventListener('change',()=>{state.agendaFilters.singleDate=els.agendaSingleDateInput.value || todayISO; persistAgendaFilters(); renderMonthlyAgenda();});
+els.repeatTypeInput.addEventListener('change',()=>updateRepeatHelp('main'));
+els.editRepeatTypeInput.addEventListener('change',()=>updateRepeatHelp('edit'));
+els.repeatDaysButtons.querySelectorAll('.day-chip').forEach(btn=>{btn.addEventListener('click',()=>btn.classList.toggle('active'));});
+els.editRepeatDaysButtons.querySelectorAll('.day-chip').forEach(btn=>{btn.addEventListener('click',()=>btn.classList.toggle('active'));});
 els.cancelEditBtn.addEventListener('click',closeEdit);
 els.updateTaskBtn.addEventListener('click',updateTask);
 els.editModalBackdrop.addEventListener('click',e=>{if(e.target===els.editModalBackdrop) closeEdit();});
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault(); deferredPrompt=e; els.installBtn.style.display='inline-block'; els.installBox.classList.add('show');});
 els.installBtn.addEventListener('click',async()=>{if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; els.installBtn.style.display='none'; els.installBox.classList.remove('show');});
-window.toggleTask=toggleTask; window.deleteTask=deleteTask; window.openEdit=openEdit; window.repeatTask=repeatTask; window.moveTask=moveTask;
-load(); els.dateInput.value=todayISO; els.monthInput.value=todayISO.slice(0,7); els.agendaMonthInput.value=todayISO.slice(0,7); applyTheme(); applyTexts(); clearMainForm(); renderAll();
+window.toggleTask=toggleTask;
+window.deleteTask=deleteTask;
+window.openEdit=openEdit;
+window.repeatTask=repeatTask;
+window.moveTask=moveTask;
+window.cycleTaskStatus=cycleTaskStatus;
+
+load();
+runDailyRolloverIfNeeded();
+els.dateInput.value=todayISO;
+els.monthInput.value=todayISO.slice(0,7);
+els.agendaMonthInput.value=todayISO.slice(0,7);
+applyTheme();
+applyTexts();
+syncAgendaFilterUI();
+clearMainForm();
+renderAll();
 </script>
 </body>
 </html>
